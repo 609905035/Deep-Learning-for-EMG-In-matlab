@@ -20,7 +20,7 @@ layers = [ ...
     batchNormalizationLayer
     reluLayer   
     
-    fullyConnectedLayer(12)
+    fullyConnectedLayer(23)
     softmaxLayer
     classificationLayer]
 %设置验证集

@@ -1,9 +1,9 @@
-load('F:\下载\EMG数据库\NinaDB1\S1_A1_E1');
+load('F:\下载\EMG数据库\NinaDB1\S1_A1_E3');
 %第一位实验者12组手指运动数据制作图像
 temp = [];
 count = 0; %对样本计数
 for a = 1:10
-    for b = 1:12
+    for b = 1:23
         count = count + 1;
         index = repetition ;
         index(index ~= a) = 0; %将无关项置零
