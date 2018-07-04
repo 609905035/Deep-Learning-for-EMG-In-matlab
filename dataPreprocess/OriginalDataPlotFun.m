@@ -1,4 +1,7 @@
-load('F:\下载\EMG数据库\NinaDB1\S1_A1_E1');
+function [XTrain,YTrain] = OriginalDataPlotFun(path)
+%从NinaDB1读取第一类动作数据，path为数据集绝对路径
+% 
+load(path,'repetition', 'stimulus', 'emg'); 
 %第一位实验者12组手指运动数据制作图像
 temp = [];
 count = 0; %对样本计数
@@ -18,5 +21,8 @@ for a = 1:10
     end
 end
 XTrain = dataset;
-YTrain = categories;
-YTrain = categorical(YTrain);
+YTrain = categorical(categories);
+
+
+end
+
