@@ -1,6 +1,6 @@
-function [XTrain,YTrain] = OriginalDataPlotFun(path,exercise)
-%从NinaDB1读取第某一类动作数据，path为数据集绝对路径
-%exercise指定动作类型,默认为1
+function [XTrain,YTrain] = SequenceEMGSignalFun(path,exercise)
+%SEQUENCEEMGSIGNAL 此处显示有关此函数的摘要
+%   此处显示详细说明
 if nargin < 2
     exercise = 1; %设置默认值
 end
@@ -30,24 +30,21 @@ for a = 1:10 %10次重复
             if length(emgImage) > 515
                 emgImage = emgImage(1:515); %去掉多余的值
             end
-            emgImage = emgImage'; %方便填充0操作
-            emgImage = [emgImage,zeros(1,515 - length(emgImage))];
-            emgImage = vec2mat(emgImage,23); % 转换矩阵。
-            temp(:,:,c) = emgImage;%扩展到三维
+            emgImage = emgImage'; %变为行向量，方便填充0操作
+            emgImage = [emgImage,zeros(1,515 - length(emgImage))]; %置零在LSTM可能有较大影响
+            temp(c,:) = emgImage;%创建2D序列，行代表通道
         end
         if flag == 0
             dataset = temp;
             categories = b ;
             flag = 1;
             continue;
-        end
-        dataset = cat(4,dataset,temp); %给temp第四维，形成23×23×10×120赋值之前需要删除原有变量
+        end    
+        dataset = cat(3,dataset,temp); %给temp第四维，形成23×23×10×120赋值之前需要删除原有变量
         categories = [categories b]; %附加b到categories后,使用cat(2, ...)会出现无法附加值的问题
     end
 end
 XTrain = dataset;
 YTrain = categorical(categories);
-
-
 end
 
