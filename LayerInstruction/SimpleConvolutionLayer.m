@@ -24,7 +24,7 @@ layers = [ ...
     softmaxLayer
     classificationLayer]
 %设置验证集
-idx = randperm(size(XTrain,4),100);
+idx = randperm(size(XTrain,4),500);
 XValidation = XTrain(:,:,:,idx);
 XTrain(:,:,:,idx) = [];
 YValidation = YTrain(idx);
