@@ -1,0 +1,40 @@
+%%肌电数据转换为图像，然后识别
+%Next把九个subject数据都使用上，增加数据量
+layers = [ ...
+    imageInputLayer([515 1 10]) %515*1图像大小，十通道
+    
+    convolution2dLayer([9 1],10,'Stride',[10 1]) %10个卷积过滤器，100×1大小，横步长10 纵步长0
+    batchNormalizationLayer
+    reluLayer
+    
+    maxPooling2dLayer([3 1],'Stride',[3 1])
+    
+    convolution2dLayer([9 1],16,'Stride',[10 1])
+    batchNormalizationLayer
+    reluLayer   
+    
+    maxPooling2dLayer([3 1],'Stride',[3 1])
+    
+    convolution2dLayer([9 1],32,'Stride',[10 1])
+    batchNormalizationLayer
+    reluLayer   
+    
+    fullyConnectedLayer(23)
+    softmaxLayer
+    classificationLayer]
+%设置验证集
+idx = randperm(size(XTrain,4),500);
+XValidation = XTrain(:,:,:,idx);
+XTrain(:,:,:,idx) = [];
+YValidation = YTrain(idx);
+YTrain(idx) = [];
+
+opts = trainingOptions('sgdm', ...
+    'MaxEpochs',15, ...
+    'Shuffle','every-epoch', ...
+    'Plots','training-progress', ...
+    'Verbose',false, ...
+    'ValidationData',{XValidation,YValidation},...
+    'ValidationPatience',Inf);
+
+net = trainNetwork(XTrain,YTrain,layers,opts) %Y必须是categories类型
