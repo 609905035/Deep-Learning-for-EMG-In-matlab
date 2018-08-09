@@ -1,5 +1,7 @@
-function [XTrain,YTrain] = SequenceCovolutionFun(path,exercise)
-%卷积一排数据的数据预处理函数，把一横排数据准备好，在Load_..._CovSequence.m被使用，无需单独使用
+
+function [XTrain,YTrain] = SequenceCovolutionSubstractFun(path,exercise)
+%emg数据的当前位置的值减去前一位的值，放入当前位置，形成一排新的肌电数据
+%第一位置0
 %从NinaDB1读取第某一类动作数据，path为数据集绝对路径
 %exercise指定动作类型,默认为1
 if nargin < 2
@@ -33,8 +35,17 @@ for a = 1:10 %10次重复
             end
             emgImage = emgImage'; %方便填充0操作
             emgImage = [emgImage,zeros(1,515 - length(emgImage))];
+            
+            %特殊操作,前一位减去后一位
+            tempSub = zeros(1,515); %全0的1行515列数组
+            for d = 2:515
+                tempSub(d) = emgImage(d) - emgImage(d - 1);
+            end
+            emgImage = tempSub;
+                
             emgImage = vec2mat(emgImage,515);
             temp(:,:,c) = emgImage;%扩展到三维
+
         end
         if flag == 0
             dataset = temp;
@@ -51,4 +62,3 @@ YTrain = categorical(categories);
 
 
 end
-

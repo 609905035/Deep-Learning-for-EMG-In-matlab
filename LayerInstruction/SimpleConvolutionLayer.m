@@ -4,13 +4,13 @@
 layers = [ ...
     imageInputLayer([23 23 10]) %23*23图像大小，单通道
     
-    convolution2dLayer(3,10,'Padding','same') %10个卷积过滤器，3×3大小，自动计算填充层
+    convolution2dLayer(3,32,'Padding','same') %10个卷积过滤器，3×3大小，自动计算填充层
     batchNormalizationLayer
     reluLayer
     
     maxPooling2dLayer(2,'Stride',2)
     
-    convolution2dLayer(3,16,'Padding','same')
+    convolution2dLayer(3,32,'Padding','same')
     batchNormalizationLayer
     reluLayer   
     
@@ -31,7 +31,7 @@ YValidation = YTrain(idx);
 YTrain(idx) = [];
 
 opts = trainingOptions('sgdm', ...
-    'MaxEpochs',15, ...
+    'MaxEpochs',30, ...
     'Shuffle','every-epoch', ...
     'Plots','training-progress', ...
     'Verbose',false, ...

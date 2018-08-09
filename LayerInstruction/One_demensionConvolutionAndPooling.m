@@ -7,13 +7,17 @@ layers = [ ...
     batchNormalizationLayer
     reluLayer
     
-    maxPooling2dLayer([10 1],'Stride',[2 1])
+    %maxPooling2dLayer([10 1],'Stride',[2 1])
     
     convolution2dLayer([30 1],32,'Stride',[1 1],'Padding','same')
     batchNormalizationLayer
     reluLayer   
     
-    maxPooling2dLayer([30 1],'Stride',[2 1])
+    %maxPooling2dLayer([30 1],'Stride',[2 1])
+    
+    convolution2dLayer([50 1],32,'Stride',[1 1],'Padding','same')
+    batchNormalizationLayer
+    reluLayer   
     
     convolution2dLayer([50 1],32,'Stride',[1 1],'Padding','same')
     batchNormalizationLayer
@@ -30,7 +34,7 @@ YValidation = YTrain(idx);
 YTrain(idx) = [];
 
 opts = trainingOptions('sgdm', ...
-    'MaxEpochs',30, ...
+    'MaxEpochs',50, ...
     'Shuffle','every-epoch', ...
     'Plots','training-progress', ...
     'Verbose',false, ...
